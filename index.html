@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dev:Forward — Next Commit</title>
+  <meta name="description" content="Eine Initiative für die Wiener Developer-Community. Nachmittagsevent zu AI-Assisted Development, Mai/Juni 2026.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --bg-elevated: #111827;
+      --bg-card: #151d2e;
+      --border: #1e293b;
+      --border-accent: #22d3ee;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent: #22d3ee;
+      --accent-glow: rgba(34, 211, 238, 0.15);
+      --accent-secondary: #a78bfa;
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --font-display: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* --- Noise overlay --- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -15%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(167, 139, 250, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      animation: pulse 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .hero-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .prompt-line {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .prompt-line span {
+      color: var(--text-dim);
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 0.3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+
+    .hero h1 .colon {
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.6s;
+    }
+
+    .tagline .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-meta {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.8s;
+    }
+
+    .hero-meta strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Sections --- */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    p {
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+
+    p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    p strong a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    p strong a:hover {
+      opacity: 0.7;
+    }
+
+    /* --- Divider --- */
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* --- Blockquote / Kernbotschaft --- */
+    .kernbotschaft {
+      border-left: 3px solid var(--accent);
+      padding: 1.5rem 2rem;
+      background: var(--accent-glow);
+      border-radius: 0 8px 8px 0;
+      margin: 2rem 0;
+    }
+
+    .kernbotschaft p {
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 0;
+      line-height: 1.7;
+    }
+
+    /* --- Format Grid --- */
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 2rem 0;
+    }
+
+    .format-item {
+      background: var(--bg-card);
+      padding: 1.5rem;
+    }
+
+    .format-item .label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    .format-item .value {
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    /* --- Cards --- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    a.card {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+      background: var(--bg-card);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+
+    .card h3 .icon {
+      margin-right: 0.5rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    /* --- Status --- */
+    .status-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .status-list li {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .status-list li:last-child {
+      border-bottom: none;
+    }
+
+    .status-icon {
+      flex-shrink: 0;
+      width: 20px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* --- Footer --- */
+    footer {
+      padding: 3rem 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    footer a:hover {
+      opacity: 0.7;
+    }
+
+    /* --- Scroll animations --- */
+    .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal.animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 640px) {
+      .hero { padding: 3rem 1.5rem; }
+      .container { padding: 0 1.5rem; }
+      section { padding: 3.5rem 0; }
+      .format-grid { grid-template-columns: 1fr 1fr; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="prompt-line">$ git commit -m <span>"next_commit"</span></div>
+      <h1>Dev<span class="colon">:</span>Forward</h1>
+      <div class="tagline">Next Commit<span class="cursor"></span></div>
+      <div class="hero-meta">
+        Eine Initiative für die <strong>Wiener Developer-Community</strong>.<br>
+        Nachmittagsevent · Mai/Juni 2026 · Wien · 50–100 Devs<br>
+        Kostenlos · Community-getrieben
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- WARUM -->
+  <section>
+    <div class="container reveal">
+      <div class="section-label">// warum</div>
+      <h2>Die Branche verändert sich.<br>Fundamental.</h2>
+      <p>
+        Österreich hat in den letzten Jahren massiv Software-Developer ausgebildet — an Unis, FHs, HTLs, in Bootcamps. Software-Entwicklung ist zu einem der verlässlichsten Karrierewege geworden, und das zu Recht. Aber genau diese Verlässlichkeit hat dazu geführt, dass viele Entwickler:innen sich im Berufsalltag eingerichtet haben — und jetzt von der Geschwindigkeit der AI-Revolution überrascht werden.
+      </p>
+      <p>
+        Die Realität: Auch wenn es in Zukunft <strong>mehr Software</strong> geben wird, wird die Wirtschaft voraussichtlich <strong>weniger Developer</strong> dafür bezahlen, sie zu erstellen. Agentic Coding, AI-Assistenten und automatisierte Entwicklungspipelines verändern die Branche grundlegend.
+      </p>
+      <p>
+        Gleichzeitig liegt darin eine enorme Chance. Wer jetzt aktiv wird — neue Technologien lernt, Projekte baut, experimentiert — kann die digitale Transformation mitgestalten statt von ihr überrollt zu werden. Das Problem: Es gibt dafür keinen Kurs, keinen vorgefertigten Pfad. Aber es gibt eine Community, die das gemeinsam herausfinden kann.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- KERNBOTSCHAFT -->
+  <section>
+    <div class="container reveal">
+      <div class="section-label">// kernbotschaft</div>
+      <div class="kernbotschaft">
+        <p>
+          Ja, die Veränderung ist real und ernst. Aber wer jetzt handelt, hat die Chance, in der neuen Welt der Software-Entwicklung vorne dabei zu sein. Nicht nur individuell — Wien und Österreich können eine Führungsrolle einnehmen, wenn wir als Community aktiv werden.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FORMAT -->
+  <section>
+    <div class="container reveal">
+      <div class="section-label">// das format</div>
+      <h2>Ein Nachmittag.<br>Klar. Kompakt. Konkret.</h2>
+      <div class="format-grid">
+        <div class="format-item">
+          <div class="label">Wann</div>
+          <div class="value">Do oder Fr Nachmittag, Mai/Juni 2026</div>
+        </div>
+        <div class="format-item">
+          <div class="label">Wo</div>
+          <div class="value">Wien, zentral — Location wird finalisiert</div>
+        </div>
+        <div class="format-item">
+          <div class="label">Größe</div>
+          <div class="value">50–100 Teilnehmer:innen</div>
+        </div>
+        <div class="format-item">
+          <div class="label">Programm</div>
+          <div class="value">Podiumsdiskussion + 2–3 Talks + Networking</div>
+        </div>
+        <div class="format-item">
+          <div class="label">Kosten</div>
+          <div class="value">Gratis für Teilnehmer:innen</div>
+        </div>
+        <div class="format-item">
+          <div class="label">Vibe</div>
+          <div class="value">Bier, Snacks, ehrliche Gespräche</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- WAS WIR SUCHEN -->
+  <section>
+    <div class="container reveal">
+      <div class="section-label">// was wir suchen</div>
+      <h2>Mach mit.</h2>
+      <div class="card-grid">
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Sponsoring%20%2F%20Firmenpartnerschaft" class="card">
+          <h3><span class="icon">🏢</span> Firmen & Sponsoren</h3>
+          <p>Logo-Präsenz, optional Catering oder Location. Zeigt, dass euer Unternehmen die Zukunft der Software-Entwicklung aktiv mitgestaltet — nicht nur beobachtet.</p>
+        </a>
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Speaker-Interesse" class="card">
+          <h3><span class="icon">🎤</span> Speaker</h3>
+          <p>Praxisberichte aus dem Alltag mit AI-Assisted Development. 20-Minuten-Talks oder Panel-Teilnahme.</p>
+        </a>
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Mitorganisation" class="card">
+          <h3><span class="icon">🤝</span> Mitorganisator:innen</h3>
+          <p>Ein kleines Core-Team für Planung und Durchführung.</p>
+        </a>
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Institutionelle%20Partnerschaft" class="card">
+          <h3><span class="icon">🎓</span> Institutionelle Partner</h3>
+          <p>Die Transformation der Software-Branche ist ein gesellschaftliches Thema. Schirmherrschaft und Multiplikator-Wirkung helfen, die Botschaft in die gesamte Industrie zu tragen.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- STATUS -->
+  <section>
+    <div class="container reveal">
+      <div class="section-label">// status</div>
+      <h2>Wo wir stehen.</h2>
+      <ul class="status-list">
+        <li><span class="status-icon">✅</span> Idee validiert, Co-Organisator an Bord</li>
+        <li><span class="status-icon">✅</span> Erste Speaker haben Interesse bestätigt</li>
+        <li><span class="status-icon">✅</span> Interesse an Mitarbeit/Outreach durch Opinion Leader bekundet</li>
+        <li><span class="status-icon">🔄</span> Gespräche mit weiteren Sponsoren bzw. Branchen-Teilnehmenden laufen</li>
+        <li><span class="status-icon">📋</span> Nächste Schritte: Core-Team erweitern, Location & Termin fixieren</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- WER -->
+  <section>
+    <div class="container reveal">
+      <div class="section-label">// initiative</div>
+      <h2>Wer steht dahinter?</h2>
+      <p><strong><a href="https://www.linkedin.com/in/samuel-ferraz-leite/" target="_blank" rel="noopener">Samuel Ferraz-Leite</a></strong> &  <strong><a href="https://www.linkedin.com/in/martin-zehetner-34b21b21/" target="_blank" rel="noopener">Martin Zehetner</a></strong></p>
+      <p>Weitere Mitstreiter:innen werden gerade an Bord geholt.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>Dev:Forward — Next Commit</p>
+      <p style="margin-top: 0.5rem;">
+        <a href="mailto:samuel.ferraz-leite@protonmail.com">samuel.ferraz-leite@protonmail.com</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal — progressive enhancement
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(el => el.classList.add('animate'));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
