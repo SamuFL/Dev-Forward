@@ -2,7 +2,7 @@
 ### *Next Commit* — Eine Initiative für die Wiener Developer-Community
 
 **Initiative von:** Samuel Ferraz-Leite & Martin Zehetner, Diamir
-**Stand:** März 2026 | **Zieltermin:** Mai/Juni 2026, Wien
+**Stand:** April 2026 | **Zieltermin:** 2. Juli 2026, Wien (vorbehaltlich Location-Bestätigung)
 
 ---
 
@@ -26,7 +26,7 @@ Gleichzeitig liegt darin eine enorme Chance. Wer jetzt aktiv wird — neue Techn
 
 | | |
 |---|---|
-| **Wann** | Ein Donnerstag- oder Freitagnachmittag, Mai/Juni 2026 |
+| **Wann** | Donnerstag, 2. Juli 2026 (vorbehaltlich Location) |
 | **Wo** | Wien (Location offen — zentral, 80–120 Personen Kapazität) |
 | **Größe** | 50–100 Teilnehmer:innen (erstes Event, bewusst kompakt) |
 | **Programm** | Podiumsdiskussion + 2–3 Talks + Networking bei Bier & Snacks |
