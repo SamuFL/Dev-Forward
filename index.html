@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dev:Forward — Next Commit</title>
-  <meta name="description" content="Eine Initiative für die Wiener Developer-Community. Nachmittagsevent zu AI-Assisted Development, Mai/Juni 2026.">
+  <meta name="description" content="An initiative for the Vienna developer community. Afternoon event on AI-Assisted Development, May/June 2026.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -48,6 +48,46 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 999;
+    }
+
+    /* --- Lang Toggle --- */
+    .lang-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 1000;
+      display: flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .lang-toggle button {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      padding: 0.4rem 0.7rem;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .lang-toggle button.active {
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .lang-toggle button:hover:not(.active) {
+      color: var(--text);
+    }
+
+    .lang-toggle .sep {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
     }
 
     /* --- Hero --- */
@@ -224,7 +264,7 @@
       margin: 0;
     }
 
-    /* --- Blockquote / Kernbotschaft --- */
+    /* --- Blockquote / Core message --- */
     .kernbotschaft {
       border-left: 3px solid var(--accent);
       padding: 1.5rem 2rem;
@@ -392,10 +432,17 @@
       section { padding: 3.5rem 0; }
       .format-grid { grid-template-columns: 1fr 1fr; }
       .card-grid { grid-template-columns: 1fr; }
+      .lang-toggle { top: 1rem; right: 1rem; }
     }
   </style>
 </head>
 <body>
+
+  <div class="lang-toggle">
+    <button class="lang-btn" data-lang="en" onclick="applyLang('en')">EN</button>
+    <div class="sep"></div>
+    <button class="lang-btn" data-lang="de" onclick="applyLang('de')">DE</button>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -403,43 +450,35 @@
       <div class="prompt-line">$ git commit -m <span>"next_commit"</span></div>
       <h1>Dev<span class="colon">:</span>Forward</h1>
       <div class="tagline">Next Commit<span class="cursor"></span></div>
-      <div class="hero-meta">
-        Eine Initiative für die <strong>Wiener Developer-Community</strong>.<br>
-        Nachmittagsevent · Mai/Juni 2026 · Wien · 50–100 Devs<br>
-        Kostenlos · Community-getrieben
+      <div class="hero-meta" data-i18n="hero-meta">
+        An initiative for the <strong>Vienna developer community</strong>.<br>
+        Afternoon event &middot; May/June 2026 &middot; Vienna &middot; 50&ndash;100 devs<br>
+        Free &middot; Community-driven
       </div>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- WARUM -->
+  <!-- WHY -->
   <section>
     <div class="container reveal">
-      <div class="section-label">// warum</div>
-      <h2>Die Branche verändert sich.<br>Fundamental.</h2>
-      <p>
-        Österreich hat in den letzten Jahren massiv Software-Developer ausgebildet — an Unis, FHs, HTLs, in Bootcamps. Software-Entwicklung ist zu einem der verlässlichsten Karrierewege geworden, und das zu Recht. Aber genau diese Verlässlichkeit hat dazu geführt, dass viele Entwickler:innen sich im Berufsalltag eingerichtet haben — und jetzt von der Geschwindigkeit der AI-Revolution überrascht werden.
-      </p>
-      <p>
-        Die Realität: Auch wenn es in Zukunft <strong>mehr Software</strong> geben wird, wird die Wirtschaft voraussichtlich <strong>weniger Developer</strong> dafür bezahlen, sie zu erstellen. Agentic Coding, AI-Assistenten und automatisierte Entwicklungspipelines verändern die Branche grundlegend.
-      </p>
-      <p>
-        Gleichzeitig liegt darin eine enorme Chance. Wer jetzt aktiv wird — neue Technologien lernt, Projekte baut, experimentiert — kann die digitale Transformation mitgestalten statt von ihr überrollt zu werden. Das Problem: Es gibt dafür keinen Kurs, keinen vorgefertigten Pfad. Aber es gibt eine Community, die das gemeinsam herausfinden kann.
-      </p>
+      <div class="section-label" data-i18n="why-label">// why</div>
+      <h2 data-i18n="why-h2">The industry is changing.<br>Fundamentally.</h2>
+      <p data-i18n="why-p1">Austria has trained a massive number of software developers in recent years — at universities, universities of applied sciences, technical colleges, and bootcamps. Software development has become one of the most reliable career paths, and rightly so. But this very reliability has led many developers to settle into their professional routines — and now they're being caught off guard by the speed of the AI revolution.</p>
+      <p data-i18n="why-p2">The reality: Even though there will be <strong>more software</strong> in the future, the economy will likely pay <strong>fewer developers</strong> to build it. Agentic coding, AI assistants, and automated development pipelines are fundamentally reshaping the industry.</p>
+      <p data-i18n="why-p3">At the same time, there's an enormous opportunity. Those who act now — learning new technologies, building projects, experimenting — can help shape the digital transformation rather than being swept away by it. The problem: there's no course for this, no predefined path. But there is a community that can figure it out together.</p>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- KERNBOTSCHAFT -->
+  <!-- CORE MESSAGE -->
   <section>
     <div class="container reveal">
-      <div class="section-label">// kernbotschaft</div>
+      <div class="section-label" data-i18n="msg-label">// core message</div>
       <div class="kernbotschaft">
-        <p>
-          Ja, die Veränderung ist real und ernst. Aber wer jetzt handelt, hat die Chance, in der neuen Welt der Software-Entwicklung vorne dabei zu sein. Nicht nur individuell — Wien und Österreich können eine Führungsrolle einnehmen, wenn wir als Community aktiv werden.
-        </p>
+        <p data-i18n="msg-quote">Yes, the change is real and serious. But those who act now have the chance to be at the forefront of the new world of software development. Not just individually — Vienna and Austria can take a leadership role if we become active as a community.</p>
       </div>
     </div>
   </section>
@@ -449,32 +488,32 @@
   <!-- FORMAT -->
   <section>
     <div class="container reveal">
-      <div class="section-label">// das format</div>
-      <h2>Ein Nachmittag.<br>Klar. Kompakt. Konkret.</h2>
+      <div class="section-label" data-i18n="fmt-label">// the format</div>
+      <h2 data-i18n="fmt-h2">One afternoon.<br>Clear. Compact. Concrete.</h2>
       <div class="format-grid">
         <div class="format-item">
-          <div class="label">Wann</div>
-          <div class="value">Do oder Fr Nachmittag, Mai/Juni 2026</div>
+          <div class="label" data-i18n="fmt-when-l">When</div>
+          <div class="value" data-i18n="fmt-when-v">Thu or Fri afternoon, May/June 2026</div>
         </div>
         <div class="format-item">
-          <div class="label">Wo</div>
-          <div class="value">Wien, zentral — Location wird finalisiert</div>
+          <div class="label" data-i18n="fmt-where-l">Where</div>
+          <div class="value" data-i18n="fmt-where-v">Vienna, central — venue to be confirmed</div>
         </div>
         <div class="format-item">
-          <div class="label">Größe</div>
-          <div class="value">50–100 Teilnehmer:innen</div>
+          <div class="label" data-i18n="fmt-size-l">Size</div>
+          <div class="value" data-i18n="fmt-size-v">50–100 attendees</div>
         </div>
         <div class="format-item">
-          <div class="label">Programm</div>
-          <div class="value">Podiumsdiskussion + 2–3 Talks + Networking</div>
+          <div class="label" data-i18n="fmt-prog-l">Programme</div>
+          <div class="value" data-i18n="fmt-prog-v">Panel discussion + 2–3 talks + networking</div>
         </div>
         <div class="format-item">
-          <div class="label">Kosten</div>
-          <div class="value">Gratis für Teilnehmer:innen</div>
+          <div class="label" data-i18n="fmt-cost-l">Cost</div>
+          <div class="value" data-i18n="fmt-cost-v">Free for attendees</div>
         </div>
         <div class="format-item">
-          <div class="label">Vibe</div>
-          <div class="value">Bier, Snacks, ehrliche Gespräche</div>
+          <div class="label" data-i18n="fmt-vibe-l">Vibe</div>
+          <div class="value" data-i18n="fmt-vibe-v">Beers, snacks, honest conversations</div>
         </div>
       </div>
     </div>
@@ -482,27 +521,27 @@
 
   <hr class="divider">
 
-  <!-- WAS WIR SUCHEN -->
+  <!-- GET INVOLVED -->
   <section>
     <div class="container reveal">
-      <div class="section-label">// was wir suchen</div>
-      <h2>Mach mit.</h2>
+      <div class="section-label" data-i18n="inv-label">// get involved</div>
+      <h2 data-i18n="inv-h2">Join us.</h2>
       <div class="card-grid">
-        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Sponsoring%20%2F%20Firmenpartnerschaft" class="card">
-          <h3><span class="icon">🏢</span> Firmen & Sponsoren</h3>
-          <p>Logo-Präsenz, optional Catering oder Location. Zeigt, dass euer Unternehmen die Zukunft der Software-Entwicklung aktiv mitgestaltet — nicht nur beobachtet.</p>
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Sponsoring%20%2F%20Company%20Partnership" class="card">
+          <h3 data-i18n="card-sponsor-h3"><span class="icon">🏢</span> Companies &amp; Sponsors</h3>
+          <p data-i18n="card-sponsor-p">Logo presence, optional catering or venue. Show that your company is actively shaping the future of software development — not just watching from the sidelines.</p>
         </a>
-        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Speaker-Interesse" class="card">
-          <h3><span class="icon">🎤</span> Speaker</h3>
-          <p>Praxisberichte aus dem Alltag mit AI-Assisted Development. 20-Minuten-Talks oder Panel-Teilnahme.</p>
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Speaker%20Interest" class="card">
+          <h3 data-i18n="card-speaker-h3"><span class="icon">🎤</span> Speakers</h3>
+          <p data-i18n="card-speaker-p">Practical insights from working with AI-assisted development day-to-day. 20-minute talks or panel participation.</p>
         </a>
-        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Mitorganisation" class="card">
-          <h3><span class="icon">🤝</span> Mitorganisator:innen</h3>
-          <p>Ein kleines Core-Team für Planung und Durchführung.</p>
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Co-organization" class="card">
+          <h3 data-i18n="card-orga-h3"><span class="icon">🤝</span> Co-organizers</h3>
+          <p data-i18n="card-orga-p">A small core team for planning and execution.</p>
         </a>
-        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Institutionelle%20Partnerschaft" class="card">
-          <h3><span class="icon">🎓</span> Institutionelle Partner</h3>
-          <p>Die Transformation der Software-Branche ist ein gesellschaftliches Thema. Schirmherrschaft und Multiplikator-Wirkung helfen, die Botschaft in die gesamte Industrie zu tragen.</p>
+        <a href="mailto:samuel.ferraz-leite@protonmail.com?subject=Dev%3AForward%20%E2%80%94%20Institutional%20Partnership" class="card">
+          <h3 data-i18n="card-partner-h3"><span class="icon">🎓</span> Institutional Partners</h3>
+          <p data-i18n="card-partner-p">The transformation of the software industry is a societal issue. Patronage and amplification help carry the message across the entire industry.</p>
         </a>
       </div>
     </div>
@@ -513,27 +552,27 @@
   <!-- STATUS -->
   <section>
     <div class="container reveal">
-      <div class="section-label">// status</div>
-      <h2>Wo wir stehen.</h2>
+      <div class="section-label" data-i18n="status-label">// status</div>
+      <h2 data-i18n="status-h2">Where we stand.</h2>
       <ul class="status-list">
-        <li><span class="status-icon">✅</span> Idee validiert, Co-Organisator an Bord</li>
-        <li><span class="status-icon">✅</span> Erste Speaker haben Interesse bestätigt</li>
-        <li><span class="status-icon">✅</span> Interesse an Mitarbeit/Outreach durch Opinion Leader bekundet</li>
-        <li><span class="status-icon">🔄</span> Gespräche mit weiteren Sponsoren bzw. Branchen-Teilnehmenden laufen</li>
-        <li><span class="status-icon">📋</span> Nächste Schritte: Core-Team erweitern, Location & Termin fixieren</li>
+        <li><span class="status-icon">✅</span> <span data-i18n="status-1">Idea validated, co-organizer on board</span></li>
+        <li><span class="status-icon">✅</span> <span data-i18n="status-2">First speakers have confirmed interest</span></li>
+        <li><span class="status-icon">✅</span> <span data-i18n="status-3">Interest in involvement/outreach from opinion leaders confirmed</span></li>
+        <li><span class="status-icon">🔄</span> <span data-i18n="status-4">Talks with further sponsors and industry participants ongoing</span></li>
+        <li><span class="status-icon">📋</span> <span data-i18n="status-5">Next steps: expand core team, finalize venue &amp; date</span></li>
       </ul>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- WER -->
+  <!-- TEAM -->
   <section>
     <div class="container reveal">
-      <div class="section-label">// initiative</div>
-      <h2>Wer steht dahinter?</h2>
-      <p><strong><a href="https://www.linkedin.com/in/samuel-ferraz-leite/" target="_blank" rel="noopener">Samuel Ferraz-Leite</a></strong> &  <strong><a href="https://www.linkedin.com/in/martin-zehetner-34b21b21/" target="_blank" rel="noopener">Martin Zehetner</a></strong></p>
-      <p>Weitere Mitstreiter:innen werden gerade an Bord geholt.</p>
+      <div class="section-label" data-i18n="team-label">// the team</div>
+      <h2 data-i18n="team-h2">Who&#39;s behind this?</h2>
+      <p><strong><a href="https://www.linkedin.com/in/samuel-ferraz-leite/" target="_blank" rel="noopener">Samuel Ferraz-Leite</a></strong> &amp; <strong><a href="https://www.linkedin.com/in/martin-zehetner-34b21b21/" target="_blank" rel="noopener">Martin Zehetner</a></strong></p>
+      <p data-i18n="team-p2">More collaborators are currently being brought on board.</p>
     </div>
   </section>
 
@@ -548,6 +587,119 @@
   </footer>
 
   <script>
+    const i18n = {
+      en: {
+        'hero-meta':      'An initiative for the <strong>Vienna developer community</strong>.<br>Afternoon event &middot; May/June 2026 &middot; Vienna &middot; 50&ndash;100 devs<br>Free &middot; Community-driven',
+        'why-label':      '// why',
+        'why-h2':         'The industry is changing.<br>Fundamentally.',
+        'why-p1':         'Austria has trained a massive number of software developers in recent years — at universities, universities of applied sciences, technical colleges, and bootcamps. Software development has become one of the most reliable career paths, and rightly so. But this very reliability has led many developers to settle into their professional routines — and now they\'re being caught off guard by the speed of the AI revolution.',
+        'why-p2':         'The reality: Even though there will be <strong>more software</strong> in the future, the economy will likely pay <strong>fewer developers</strong> to build it. Agentic coding, AI assistants, and automated development pipelines are fundamentally reshaping the industry.',
+        'why-p3':         'At the same time, there\'s an enormous opportunity. Those who act now — learning new technologies, building projects, experimenting — can help shape the digital transformation rather than being swept away by it. The problem: there\'s no course for this, no predefined path. But there is a community that can figure it out together.',
+        'msg-label':      '// core message',
+        'msg-quote':      'Yes, the change is real and serious. But those who act now have the chance to be at the forefront of the new world of software development. Not just individually — Vienna and Austria can take a leadership role if we become active as a community.',
+        'fmt-label':      '// the format',
+        'fmt-h2':         'One afternoon.<br>Clear. Compact. Concrete.',
+        'fmt-when-l':     'When',
+        'fmt-when-v':     'Thu or Fri afternoon, May/June 2026',
+        'fmt-where-l':    'Where',
+        'fmt-where-v':    'Vienna, central — venue to be confirmed',
+        'fmt-size-l':     'Size',
+        'fmt-size-v':     '50–100 attendees',
+        'fmt-prog-l':     'Programme',
+        'fmt-prog-v':     'Panel discussion + 2–3 talks + networking',
+        'fmt-cost-l':     'Cost',
+        'fmt-cost-v':     'Free for attendees',
+        'fmt-vibe-l':     'Vibe',
+        'fmt-vibe-v':     'Beers, snacks, honest conversations',
+        'inv-label':      '// get involved',
+        'inv-h2':         'Join us.',
+        'card-sponsor-h3':'<span class="icon">🏢</span> Companies &amp; Sponsors',
+        'card-sponsor-p': 'Logo presence, optional catering or venue. Show that your company is actively shaping the future of software development — not just watching from the sidelines.',
+        'card-speaker-h3':'<span class="icon">🎤</span> Speakers',
+        'card-speaker-p': 'Practical insights from working with AI-assisted development day-to-day. 20-minute talks or panel participation.',
+        'card-orga-h3':   '<span class="icon">🤝</span> Co-organizers',
+        'card-orga-p':    'A small core team for planning and execution.',
+        'card-partner-h3':'<span class="icon">🎓</span> Institutional Partners',
+        'card-partner-p': 'The transformation of the software industry is a societal issue. Patronage and amplification help carry the message across the entire industry.',
+        'status-label':   '// status',
+        'status-h2':      'Where we stand.',
+        'status-1':       'Idea validated, co-organizer on board',
+        'status-2':       'First speakers have confirmed interest',
+        'status-3':       'Interest in involvement/outreach from opinion leaders confirmed',
+        'status-4':       'Talks with further sponsors and industry participants ongoing',
+        'status-5':       'Next steps: expand core team, finalize venue &amp; date',
+        'team-label':     '// the team',
+        'team-h2':        'Who\'s behind this?',
+        'team-p2':        'More collaborators are currently being brought on board.',
+      },
+      de: {
+        'hero-meta':      'Eine Initiative f\u00fcr die <strong>Wiener Developer-Community</strong>.<br>Nachmittagsevent &middot; Mai/Juni 2026 &middot; Wien &middot; 50&ndash;100 Devs<br>Kostenlos &middot; Community-getrieben',
+        'why-label':      '// warum',
+        'why-h2':         'Die Branche ver\u00e4ndert sich.<br>Fundamental.',
+        'why-p1':         '\u00d6sterreich hat in den letzten Jahren massiv Software-Developer ausgebildet \u2014 an Unis, FHs, HTLs, in Bootcamps. Software-Entwicklung ist zu einem der verl\u00e4sslichsten Karrierewege geworden, und das zu Recht. Aber genau diese Verl\u00e4sslichkeit hat dazu gef\u00fchrt, dass viele Entwickler:innen sich im Berufsalltag eingerichtet haben \u2014 und jetzt von der Geschwindigkeit der AI-Revolution \u00fcberrascht werden.',
+        'why-p2':         'Die Realit\u00e4t: Auch wenn es in Zukunft <strong>mehr Software</strong> geben wird, wird die Wirtschaft voraussichtlich <strong>weniger Developer</strong> daf\u00fcr bezahlen, sie zu erstellen. Agentic Coding, AI-Assistenten und automatisierte Entwicklungspipelines ver\u00e4ndern die Branche grundlegend.',
+        'why-p3':         'Gleichzeitig liegt darin eine enorme Chance. Wer jetzt aktiv wird \u2014 neue Technologien lernt, Projekte baut, experimentiert \u2014 kann die digitale Transformation mitgestalten statt von ihr \u00fcberrollt zu werden. Das Problem: Es gibt daf\u00fcr keinen Kurs, keinen vorgefertigten Pfad. Aber es gibt eine Community, die das gemeinsam herausfinden kann.',
+        'msg-label':      '// kernbotschaft',
+        'msg-quote':      'Ja, die Ver\u00e4nderung ist real und ernst. Aber wer jetzt handelt, hat die Chance, in der neuen Welt der Software-Entwicklung vorne dabei zu sein. Nicht nur individuell \u2014 Wien und \u00d6sterreich k\u00f6nnen eine F\u00fchrungsrolle einnehmen, wenn wir als Community aktiv werden.',
+        'fmt-label':      '// das format',
+        'fmt-h2':         'Ein Nachmittag.<br>Klar. Kompakt. Konkret.',
+        'fmt-when-l':     'Wann',
+        'fmt-when-v':     'Do oder Fr Nachmittag, Mai/Juni 2026',
+        'fmt-where-l':    'Wo',
+        'fmt-where-v':    'Wien, zentral \u2014 Location wird finalisiert',
+        'fmt-size-l':     'Gr\u00f6\u00dfe',
+        'fmt-size-v':     '50\u2013100 Teilnehmer:innen',
+        'fmt-prog-l':     'Programm',
+        'fmt-prog-v':     'Podiumsdiskussion + 2\u20133 Talks + Networking',
+        'fmt-cost-l':     'Kosten',
+        'fmt-cost-v':     'Gratis f\u00fcr Teilnehmer:innen',
+        'fmt-vibe-l':     'Vibe',
+        'fmt-vibe-v':     'Bier, Snacks, ehrliche Gespr\u00e4che',
+        'inv-label':      '// was wir suchen',
+        'inv-h2':         'Mach mit.',
+        'card-sponsor-h3':'<span class="icon">\U0001f3e2</span> Firmen &amp; Sponsoren',
+        'card-sponsor-p': 'Logo-Pr\u00e4senz, optional Catering oder Location. Zeigt, dass euer Unternehmen die Zukunft der Software-Entwicklung aktiv mitgestaltet \u2014 nicht nur beobachtet.',
+        'card-speaker-h3':'<span class="icon">\U0001f3a4</span> Speaker',
+        'card-speaker-p': 'Praxisberichte aus dem Alltag mit AI-Assisted Development. 20-Minuten-Talks oder Panel-Teilnahme.',
+        'card-orga-h3':   '<span class="icon">\U0001f91d</span> Mitorganisator:innen',
+        'card-orga-p':    'Ein kleines Core-Team f\u00fcr Planung und Durchf\u00fchrung.',
+        'card-partner-h3':'<span class="icon">\U0001f393</span> Institutionelle Partner',
+        'card-partner-p': 'Die Transformation der Software-Branche ist ein gesellschaftliches Thema. Schirmherrschaft und Multiplikator-Wirkung helfen, die Botschaft in die gesamte Industrie zu tragen.',
+        'status-label':   '// status',
+        'status-h2':      'Wo wir stehen.',
+        'status-1':       'Idee validiert, Co-Organisator an Bord',
+        'status-2':       'Erste Speaker haben Interesse best\u00e4tigt',
+        'status-3':       'Interesse an Mitarbeit/Outreach durch Opinion Leader bekundet',
+        'status-4':       'Gespr\u00e4che mit weiteren Sponsoren bzw. Branchen-Teilnehmenden laufen',
+        'status-5':       'N\u00e4chste Schritte: Core-Team erweitern, Location &amp; Termin fixieren',
+        'team-label':     '// initiative',
+        'team-h2':        'Wer steht dahinter?',
+        'team-p2':        'Weitere Mitstreiter:innen werden gerade an Bord geholt.',
+      }
+    };
+
+    function applyLang(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[lang] && i18n[lang][key] !== undefined) {
+          el.innerHTML = i18n[lang][key];
+        }
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      const meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.content = lang === 'en'
+        ? 'An initiative for the Vienna developer community. Afternoon event on AI-Assisted Development, May/June 2026.'
+        : 'Eine Initiative f\u00fcr die Wiener Developer-Community. Nachmittagsevent zu AI-Assisted Development, Mai/Juni 2026.';
+      try { localStorage.setItem('lang', lang); } catch(e) {}
+    }
+
+    // Init: respect saved preference, default to English
+    const savedLang = (() => { try { return localStorage.getItem('lang'); } catch(e) { return null; } })();
+    applyLang(savedLang || 'en');
+
     // Scroll reveal — progressive enhancement
     const reveals = document.querySelectorAll('.reveal');
     reveals.forEach(el => el.classList.add('animate'));
