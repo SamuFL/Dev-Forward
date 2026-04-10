@@ -21,7 +21,7 @@ Dev:Forward ("Next Commit") is a static single-page website for a community even
 
 ## Project Plan
 
-The living project plan lives in the **private** repo [`SamuFL/Dev-Forward-internal-planning`](https://github.com/SamuFL/Dev-Forward-internal-planning) (`PLAN.md`). It is written in German and contains phase-by-phase tasks, the contact/status tracker, and open decisions.
+The living project plan lives **exclusively** in the **private** repo [`SamuFL/Dev-Forward-internal-planning`](https://github.com/SamuFL/Dev-Forward-internal-planning) (`PLAN.md`). Do not create or edit `PLAN.md` in this repo. It is written in German and contains phase-by-phase tasks, the contact/status tracker, and open decisions.
 
 **Keep `PLAN.md` and `index.html` in sync:** when event details change (date, venue, programme, speaker lineup, status items), update both files. The status section, format grid, and "get involved" cards in `index.html` are the most likely to need updating.
 
